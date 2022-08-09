@@ -1,4 +1,4 @@
---CREATE A DATABASE FOR HICKMAN HOBBY FARM
+--CREATE A DATABASE FOR HICKMAN HOBBY FARM (8/9/2022)
 
 create table hhf (id integer primary key, item text, price integer, inventory integer, quantity_sold integer); 
 
