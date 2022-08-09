@@ -1,0 +1,32 @@
+--CREATE A DATABASE FOR HICKMAN HOBBY FARM
+
+create table hhf (id integer primary key, item text, price integer, inventory integer, quantity_sold integer); 
+
+insert into hhf values (1, "chicken_eggs", 5, 15, 12);
+insert into hhf values (2, "milk", 4, 10, 3);
+insert into hhf values (3, "cheese", 7, 9, 4);
+insert into hhf values (4, "bread", 6, 10, 8);
+insert into hhf values (5, "yogert", 5, 14, 6);
+insert into hhf values (6, "meat", 20, 8, 4);
+insert into hhf values (7, "candles", 12, 10, 6);
+insert into hhf values (8, "beer", 12, 9, 6);
+insert into hhf values (9, "wine", 15, 14, 9);
+insert into hhf values (10, "vanilla", 9, 15, 10);
+insert into hhf values (11, "duck_eggs", 8, 7, 3);
+insert into hhf values (12, "basil", 3, 18, 10);
+insert into hhf values (13, "parsley", 3, 15, 6);
+insert into hhf values (14, "arugula", 5, 12, 8);
+insert into hhf values (15, "cilantro", 3, 9, 5);
+select * from hhf;
+
+--DISPLAY DATABASE AND ORDER BY PRICE
+select * from hhf order by price desc;
+
+--WHAT IS MY TOTAL INVENTORY
+select sum(inventory) from hhf;
+
+--WHAT IS THE AVERAGE PRICE
+select avg(price) from hhf;
+
+--WHAT IS THE MOST POPULAR ITEMS
+select * from hhf order by quantity_sold;
