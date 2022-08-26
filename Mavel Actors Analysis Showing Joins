@@ -1,0 +1,89 @@
+--TABLES BUILT BY LESLIE HICKMAN
+--RESEARCHED BY LESLIE HICKMAN
+
+create table marvel_actors
+    (actor_id integer 
+        primary key autoincrement,
+    full_name text,
+    character_name text,
+    superhero_name text);
+insert into marvel_actors (full_name, character_name, superhero_name) values ("Chris Hemsworth", "Thor", "Thor");
+insert into marvel_actors (full_name, character_name, superhero_name) values ("Robert Downey Jr.", "Tony Start", "Iron Man");
+insert into marvel_actors (full_name, character_name, superhero_name) values ("Chris Evans", "Steve Rogers", "Capitan America");
+insert into marvel_actors (full_name, character_name, superhero_name) values ("Scarlett Johansson", "Natasha Romanoff", "Black Widow");
+insert into marvel_actors (full_name, character_name, superhero_name) values ("Mark Ruffalo", "Bruce Banner", "Hulk");
+insert into marvel_actors (full_name, character_name, superhero_name) values ("Chris Pratt", "Peter Quill", "Starlord");
+insert into marvel_actors (full_name, character_name, superhero_name) values ("Don Cheadle", "James Rhodes", "War Machine");
+insert into marvel_actors (full_name, character_name, superhero_name) values ("Paul Rudd", "Scott Lang", "Ant Man");
+insert into marvel_actors (full_name, character_name, superhero_name) values ("Chadwick Boseman", "T'Challa", "Black Panther");
+insert into marvel_actors (full_name, character_name, superhero_name) values ("Brie Larson", "Carol Danvers", "Captain Marvel");
+insert into marvel_actors (full_name, character_name, superhero_name) values ("Tom Holland", "Peter Parker", "Spiderman");
+insert into marvel_actors (full_name, character_name, superhero_name) values ("Jermey Renner", "Clint Barton", "Hawkeye");
+insert into marvel_actors (full_name, character_name, superhero_name) values ("Benedict Cumberbatch", "Stephen Strange", "Doctor Strange");
+
+create table actor_ages
+    (id integer 
+        primary key autoincrement, 
+    full_name text,
+    age integer);
+insert into actor_ages (full_name, age) values ("Robert Downey Jr.", 57);
+insert into actor_ages (full_name, age) values ("Chris Evans", 41);
+insert into actor_ages (full_name, age) values ("Tom Holland", 26);
+insert into actor_ages (full_name, age) values ("Chris Pratt", 43);
+insert into actor_ages (full_name, age) values ("Chris Hemsworth", 38);
+insert into actor_ages (full_name, age) values ("Mark Ruffalo", 54);
+insert into actor_ages (full_name, age) values ("Benedict Cumberbatch", 46);
+insert into actor_ages (full_name, age) values ("Brie Larson", 32);
+insert into actor_ages (full_name, age) values ("Jermey Renner", 51);
+insert into actor_ages (full_name, age) values ("Don Cheadle", 57);
+insert into actor_ages (full_name, age) values ("Chadwick Bozeman", "deceased");
+insert into actor_ages (full_name, age) values ("Paul Rudd", 53);
+insert into actor_ages (full_name, age) values ("Scarlett Johansson", 37);
+
+create table actor_networth
+    (id integer 
+            primary key autoincrement, 
+        full_name text,
+        net_worth integer);
+insert into actor_networth (full_name, net_worth) values ("Robert Downey Jr.", 300000000);
+insert into actor_networth (full_name, net_worth) values ("Chris Evans", 80000000);
+insert into actor_networth (full_name, net_worth) values ("Chris Hemsworth", 130000000);
+insert into actor_networth (full_name, net_worth) values ("Mark Ruffalo", 35000000);
+insert into actor_networth (full_name, net_worth) values ("Benedict Cumberbatch", 40000000);
+insert into actor_networth (full_name, net_worth) values ("Brie Larson", 25000000);
+insert into actor_networth (full_name, net_worth) values ("Jermey Renner", 80000000);
+insert into actor_networth (full_name, net_worth) values ("Don Cheadle", 40000000);
+insert into actor_networth (full_name, net_worth) values ("Chadwick Boseman", 4000000);
+insert into actor_networth (full_name, net_worth) values ("Paul Rudd", 70000000);
+insert into actor_networth (full_name, net_worth) values ("Scarlett Johansson", 165000000);
+insert into actor_networth (full_name, net_worth) values ("Tom Holland", 18000000);
+insert into actor_networth (full_name, net_worth) values ("Chris Pratt", 90000000);
+
+--HOW OLD IS EACH SUPERHERO?
+select marvel_actors.superhero_name, actor_ages.age
+    from marvel_actors  
+        left join actor_ages
+            on marvel_actors.full_name =
+            actor_ages.full_name
+    order by age;
+
+--WHAT IS EACH ACTORS NET WORTH AND IS IT ABOVE OR BELOW THE NET WORTH OF THE OTHER ACTORS?
+select full_name, net_worth,
+    case
+        when (select round(avg(net_worth)) from actor_networth) > net_worth then "Below average"
+        when (select round(avg(net_worth)) from actor_networth) < net_worth then "Above average"
+        else "Average"
+            end as "Comparative Net Worth"
+                from actor_networth
+                order by net_worth;
+    
+--ACTOR, CHARACTER, SUPERHERO, AGE, AND NETWORTH?
+select marvel_actors.full_name, marvel_actors.character_name, marvel_actors.superhero_name, actor_ages.age, actor_networth.net_worth
+    from marvel_actors
+        left join actor_networth
+            on marvel_actors.full_name        
+            = actor_networth.full_name
+        left join actor_ages
+            on marvel_actors.full_name = 
+            actor_ages.full_name
+        order by net_worth desc;
