@@ -126,6 +126,13 @@ having avg_win_pts > 30
 order by avg_win_pts desc
 limit 3; 
 
+--OF THE HIGHEST SCORING STATES, WHICH STATES HAVE THE LARGEST POINT DIFFERENTIAL?
+select winner, state, (winner_pts-loser_pts) as "Point Differential"
+    from superbowls
+        where (winner_pts-loser_pts) > 21
+        and state in ("New Jersey", "Minnesota", "California") 
+            order by "Point Differential" desc;
+
 --RANKING WINNING TEAMS PERFORMANCE COMPARED TO AVERAGE POINTS SCORED PER GAME
 select winner, round(avg(winner_pts)) as avg_winning_pts, 
 case
