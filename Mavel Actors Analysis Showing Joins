@@ -59,7 +59,7 @@ insert into actor_networth (full_name, net_worth) values ("Scarlett Johansson", 
 insert into actor_networth (full_name, net_worth) values ("Tom Holland", 18000000);
 insert into actor_networth (full_name, net_worth) values ("Chris Pratt", 90000000);
 
---HOW OLD IS EACH SUPERHERO?
+--WHAT AGE ARE ALL THE SUPERHEROS?
 select marvel_actors.superhero_name, actor_ages.age
     from marvel_actors  
         left join actor_ages
@@ -67,7 +67,7 @@ select marvel_actors.superhero_name, actor_ages.age
             actor_ages.full_name
     order by age;
 
---WHAT IS EACH ACTORS NET WORTH AND IS IT ABOVE OR BELOW THE NET WORTH OF THE OTHER ACTORS?
+--WHAT ARE THE ACTOR'S NETWORTH, AND HOW DO THEY COMPARE TO THE OTHER ACTORS?
 select full_name, net_worth,
     case
         when (select round(avg(net_worth)) from actor_networth) > net_worth then "Below average"
@@ -76,8 +76,8 @@ select full_name, net_worth,
             end as "Comparative Net Worth"
                 from actor_networth
                 order by net_worth;
-    
---ACTOR, CHARACTER, SUPERHERO, AGE, AND NETWORTH?
+
+--WHAT IS THE ACTORS NAME, CHARACTER NAME, SUPERHERO NAME, AGE, AND NETWORTH?
 select marvel_actors.full_name, marvel_actors.character_name, marvel_actors.superhero_name, actor_ages.age, actor_networth.net_worth
     from marvel_actors
         left join actor_networth
@@ -87,3 +87,4 @@ select marvel_actors.full_name, marvel_actors.character_name, marvel_actors.supe
             on marvel_actors.full_name = 
             actor_ages.full_name
         order by net_worth desc;
+        
