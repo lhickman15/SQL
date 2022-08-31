@@ -72,3 +72,35 @@ select product, sum(quantity) as Total_Sold
         where location like '%Los Angeles%'
             group by product
             order by total_sold desc;
+
+--Which locations in New York received at least 3 orders in January, and how many orders did they each receive?
+;select distinct location, count(orderID) as total_orders
+    from jansales
+        where location like '%ny%'
+        group by location
+        having total_orders > 2;
+        
+--How many of each type of headphone were sold in February?
+select distinct product, sum(quantity) as total_quantity
+    from febsales
+        where product like '%headphone%'
+        group by product;      
+        
+--What was the average amount spent per account in February? 
+select sum(product*price)/count(cust.acctnum) as Avg_AmountPerCust
+    from febsales
+        join customers cust
+            on febsales.orderid = cust.order_id;
+            
+--What was the average quantity of products purchased per account in February?
+select sum(product)/count(cust.acctnum) as Avg_ProductPerCust
+    from febsales
+        join customers cust
+            on febsales.orderid = cust.order_id;
+            
+--Which product brought in the most revenue in January and how much revenue did it bring in total? 
+select distinct product, sum(quantity*price) as TotalRevenue
+    from jansales
+        group by product
+        order by totalrevenue desc
+        limit 1;
