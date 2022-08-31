@@ -38,3 +38,37 @@ select count(cust.acctnum), avg(quantity*price)
         join customers cust
             on feb.orderid = cust.order_id
                 where feb.quantity > 2;
+                
+--What orders occurred between Feb. 13 and Feb 17?        
+select orderid, orderdate
+    from febsales
+        where orderdate between '02/13/19 00:00' and '02/18/19 00:00'
+            order by orderdate;
+            
+--What location ordered a product on Feb 18 at 1:35 AM?
+select location 
+    from febsales
+        where orderdate = '02/18/19 01:35';
+
+--What location ordered any product on Feb. 18?
+select location, orderdate
+    from febsales
+        where orderdate like '02/18/19%';
+        
+--How many items were ordered on Feb. 18?
+select sum(quantity) as Total_Quantity
+    from febsales
+        where orderdate like '02/18/19%';
+        
+--How many batteries were sold in Feb and what was the total revenue?
+select distinct product, count(quantity) as Total_Quantity, sum(quantity*price) as Total_Revenue
+    from febsales
+        where product like '%Batteries%'
+        group by product;
+        
+--List all the products sold in Los Angeles in Feb., and include how many of each were sold.
+select product, sum(quantity) as Total_Sold
+    from febsales
+        where location like '%Los Angeles%'
+            group by product
+            order by total_sold desc;
