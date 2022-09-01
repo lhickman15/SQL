@@ -57,8 +57,23 @@ select track_name, artist_name, duration_ms
       
 --WHAT IS THE AVERAGE TEMPO OF THE TOP 10 TRACKS?
 select avg(tempo)
+        from spotifydata
+            where popularity in (select popularity from spotifydata where popularity > 94); 
+                
+--HOW DOES THE ENERGY OF EACH TRACK COMPARE TO THE AVERAGE ENERGY OF THE TOP 50 TRACKS?
+select artist_name, track_name, popularity, energy, 
+        case
+            when energy < (select avg(energy) from spotifydata) then "Low Energy"
+            when energy > (select avg(energy) from spotifydata) then "High Energy"
+            else "Average Energy"
+                end "Comparative Energy"                
+        from spotifydata
+            group by track_name
+            order by popularity desc;
+            
+
+--WHAT IS THE AVERAGE DANCEABILITY, ENERGY, LOUDNESS, AND TEMPO OF EACH ARTIST?
+select artist_name, track_name, avg(danceability), avg(energy), avg(loudness), avg(tempo)
     from spotifydata
-        where popularity in (select popularity
-            from spotifydata
-                order by popularity desc
-                limit 10);
+        group by artist_name
+        order by artist_name;
