@@ -1,0 +1,64 @@
+# For this project, I downloaded Spotify data from Kaggle.
+# Then I created a table to insert Spotify data into.
+# Finally, I performed analytics on the data using SQL.
+
+--CREATING THE TABLE
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL);  
+
+--THEN I INSERTED THE SOPITFY DATA .CVS INTO THE TABLE.
+
+--NEXT, I EXPOLORED TEH DATA. I ASKED THE FOLLOWING QUESTIONS AND ANSWERED THE QUESTION USING THE BELOW SQL. 
+
+--WHO ARE THE TOP 5 ARTISTS BY POPULARITY?
+select artist_name, popularity
+    from spotifydata
+        order by popularity desc
+        limit 5;
+        
+--IS WHICH ARTIST(S) HAVE MULTIPLE TOP TRACKS?
+select artist_name, count(artist_name) as Num_Top_Hits
+    from spotifydata
+        group by artist_name
+        having num_top_hits >= 2
+        order by num_top_hits desc;
+        
+--WHAT IS THE AVERAGE DANCEABILITY AND ENERGY BY ARTIST?
+select artist_name, avg(danceability), avg(energy)
+    from spotifydata
+        group by artist_name;
+        
+--WHAT TRACK IS THE LOUDEST AND WHO IS THE ARTIST?
+select track_name, artist_name, loudness
+    from spotifydata
+        where loudness in (select max(loudness) from spotifydata);
+        
+--WHAT TRACK IS THE SHORTEST AND WHO IS THE ARTIST?
+select track_name, artist_name, duration_ms
+    from spotifydata
+        where duration_ms in (select min(duration_ms) from spotifydata);
+      
+--WHAT IS THE AVERAGE TEMPO OF THE TOP 10 TRACKS?
+select avg(tempo)
+    from spotifydata
+        where popularity in (select popularity
+            from spotifydata
+                order by popularity desc
+                limit 10);
