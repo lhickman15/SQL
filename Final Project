@@ -125,3 +125,29 @@ select t.name, a.name, round(sum(i.total),2) as 'Total'
     group by t.name
     order by round(sum(i.total),2) desc
     limit 5;
+
+--WHAT ARE THE TOP 3 MOST POPULAR GENRE BY TOTAL SALES?
+select g.name, round(sum(i.total),2) as 'Total'
+    from chinook.genres g
+        join chinook.tracks t
+            on g.genreid = t.genreid
+        join chinook.invoice_items items
+            on t.trackid = items.trackid
+        join chinook.invoices i
+            on items.invoiceid = i.invoiceid
+    group by g.name
+    order by total desc
+    limit 3;            
+    
+--WHO IS THE OLDEST EMPLOYEE?
+select firstname, lastname, min(birthdate)
+    from chinook.employees;
+    
+--LIST HOW MANY ITEMS HAVE BEEN SOLD PER TRACK AND THEIR TOTAL AMOUNTS.
+select t.name, count(t.name) as 'Tracks Sold', round(sum(i.total),2) as 'Total'
+    from chinook.tracks t
+        join chinook.invoice_items items
+            on t.trackid = items.trackid
+        join chinook.invoices i
+            on items.invoiceid = i.invoiceid
+    group by name;
