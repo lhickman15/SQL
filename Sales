@@ -104,3 +104,25 @@ select distinct product, sum(quantity*price) as TotalRevenue
         group by product
         order by totalrevenue desc
         limit 1;
+
+--WRITE A SQL THAT WILL GIVE US THE FOLLOWING DATA: THE COOUNT NUMBERS, THE COUNT OF ORDER IDS, PRODUCT, QUANTITY, PRICE, ORDER DATE, AND LOCATION FOR ALL ORDERS THAT WERE PLACED IN FEBRUARY.
+select 
+cust.acctnum, 
+count(cust.order_ID) as orders, 
+feb.Product, 
+feb.Quantity, 
+feb.price, 
+feb.orderdate, 
+feb.location
+    from bit_db.customers cust
+        
+inner join bit_db.febsales feb
+    on feb.orderid=cust.order_id
+                
+group by 
+cust.acctnum,
+feb.product,
+feb.price,
+feb.Quantity, 
+feb.orderdate,
+feb.location;
